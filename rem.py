@@ -1,7 +1,7 @@
 # import easyimap
 
 # login = 'srinathv17111@it.ssn.edu.in'
-# password = 'Gurukrupa23091999'
+# password = '#######'
 # count=0	
 # while True:
 # 	imapper = easyimap.connect('imap.gmail.com', login, password)
