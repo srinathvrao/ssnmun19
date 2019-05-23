@@ -1,2 +1,2 @@
 # ssnmun19
-Website for ssn mun 2019.
+Website for SSNMUN 19.
