@@ -203,7 +203,7 @@
 				</div>
 				<div id = "apps">
 					<article id="main">
-						<header style = "background-image: url('/static/images/Register.jpg'); margin-top: 0.2%;" >
+						<header style = "background-image: url('images/Register.jpg'); margin-top: 0.2%;" >
 								<h2>APPLICATIONS</h2>
 								<p></p>
 						</header>
@@ -214,9 +214,9 @@
 
 									<div class="6u 12u(narrower)" align = "center">
 										<div id="sidebar">
-											<h3 style = "color: black;" align="center">Delegate<br>Application</h3>
+											<h3 style = "color: black;" align="center">Priority<br>Registration</h3>
 											<!-- Sidebar -->
-											<section id="regDel" ng-controller="DelController">
+											<section id="regDel" >
 												<button type="button" style = "background: black; border:none; color: white;" class="special" data-toggle="modal" data-target="#reg-del">APPLY</button>
 												<!-- Modal -->
 												<div class="modal fade" id="reg-del" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -226,37 +226,113 @@
 																<span type="button" class="close" data-dismiss="modal" aria-label="Close">
 																	<span aria-hidden="true" style="font-size: 1.4em;">&times;</span>
 																</span>
-																<h3 class="modal-title" id="myModalLabel">Delegate Application</h3>
+																<h3 class="modal-title" id="myModalLabel">Priority Registration</h3>
 															</div>
+															<form role="form" action="{{ url_for('handle_data') }}" method="post" name="formDel" class="formDel" target="_self" novalidate >
+																<div class="modal-body">
+																	<div class="form-group">
+																		<label for="nameDel">Name</label>
+																		<input type="text" class="form-control" id="nameDel" name="name"  placeholder="Your Name" required />
+																		<p class="help-block">Your Name is required</p>
+																	</div>
+																	<div class="form-group" >
+																		<label for="collegeDel">Institution</label>
+																		<input type="text" class="form-control" id="collegeDel" name="college" placeholder="Name of your College/University" required />
+																		<p class="help-block">Your Institution is required</p>
+																	</div>
+																	<div class="form-group" >
+																		<label for="phone-noDel">Phone No</label>
+																		<input type="tel" class="form-control" id="phone-noDel" name="phone_no"  placeholder="Your Phone No" required />
+																		<p class="help-block">Your Phone No is required</p>
+																	</div>
+																	<div class="form-group" >
+																		<label for="emailDel">E-Mail ID</label>
+																		<input type="email" class="form-control" id="emailDel" name="email" placeholder="Your E-Mail ID" required />
+																		<p class="help-block">Your E-Mail ID is required</p>
+																	</div>
 
+																	<div class="form-group" >
+																		<label for="no-delDel">No of MUNs as a Delegate</label>
+																		<input type="number" class="form-control" id="no-delDel" name="no_del" required />
+																		<p class="help-block">Required</p>
+																	</div>
+																	<div class="form-group" >
+																		<label for="expDel">MUN Experience</label>
+																		<textarea rows="4" class="form-control" id="expDel" name="exp" placeholder="S. No. - Name of the MUN - Year - Award(if any)" required></textarea>
+																		<p class="help-block">Required</p>
+																	</div>
+																	<script type="text/javascript">
+																		function removeOptions(selectbox)
+																			{
+																			    var i;
+																			    for(i = selectbox.options.length - 1 ; i >= 0 ; i--)
+																			    {
+																			        selectbox.remove(i);
+																			    }
+																			}
+																		function fillCountries(){
+																			var comm = document.getElementById("comPref1").value;
+																			$.ajax({
+																			   url:"/static/countrymatrix.csv",
+																			   dataType:"text",
+																			   success:function(data)
+																			   {
+																			    var employee_data = data.split(/\r?\n|\r/);
+																			    var countr = document.getElementById("countryPref1");
+																			    removeOptions(countr);
+																			    var opt = document.createElement('option');
+																			    opt.appendChild( document.createTextNode("--- Select One ---") );
+																			    opt.value = "";
+																			    countr.appendChild(opt); 
+																			    for(var count = 0; count<employee_data.length; count++)
+																			    {
+																			     var cell_data = employee_data[count].split(",");
+																			     var coun = cell_data[0];
+																			     var comm2 = cell_data[1];
+																			     if(comm == comm2){
+																			     	var opt = document.createElement('option');
+																			     	opt.appendChild( document.createTextNode(coun) );
+																			     	opt.value = coun;
+																			     	countr.appendChild(opt); 
+																			     }
+																			     
+																			    }
+																			   }
+																			  });
+																			
+																		}
+																	</script>
+																	<div class="row">
+																		<div class="form-group col-sm-5" >
+																			<label for="pref1">Committee Preference</label>
+																			<select onchange="if (this.selectedIndex) fillCountries();" class="form-control" id="comPref1" name="comPref1" required>
+																				<option value="">--- Select One ---</option>
+																				<option value="DISEC">Disarmamaent and International Security Council</option>
+																				<option value="SC">Security Council</option>
+																				<option value="ECOFIN">Economic and Financial Committee</option>
+																				<option value="HRC">Human Rights Committee</option>
+																			</select>
+																			<p class="help-block">Required</p>
+																		</div>
+																		<div class="form-group col-sm-7" >
+																			<label for="countryPref1">Country Preference</label>
+																			<select class="form-control" id="countryPref1" name="countryPref1" required>
+																				<option value="">--- Select One ---</option>
+																			</select>
+																			<p class="help-block">Required</p>
+																		</div>
+																	</div>
+
+																</div>
+																<div class="modal-footer">
+																	<button type="button" class="btn" data-dismiss="modal">Close</button>
+																	<button type="submit" class="special">Submit</button>
+																</div>
+															</form>
 														</div>
 													</div>
 												</div>
 
-											</section>
-										</div>
-									</div>
-
-									<div class="6u 12u(narrower)" align = "center">
-										<div id="sidebar">
-											<h3 style = "color: black;" align="center">International Press<br>Application</h3>
-											<!-- Sidebar -->
-											<section id="regIP" ng-controller="IPController">
-												<button type="button" style = "background: black; border:none; color: white;" class="special" data-toggle="modal" data-target="#reg-IP">APPLY</button>
-												<!-- Modal -->
-												<div class="modal fade" id="reg-IP" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-													<div class="modal-dialog" style = "color: black;">
-														<div class="modal-content">
-															<div class="modal-header">
-																<span type="button" class="close" data-dismiss="modal" aria-label="Close">
-																	<span aria-hidden="true" style="font-size: 1.4em;">&times;</span>
-																</span>
-																<h3 class="modal-title" id="myModalLabel">IP Application</h3>
-															</div>
-
-														</div>
-													</div>
-												</div>
 											</section>
 										</div>
 									</div>
@@ -266,6 +342,11 @@
 											<div class="modal-content">
 												<div class="modal-header">
 													<h4 class="modal-title" id="myModalLabel">Application Sent</h4>
+												</div>
+												<div class="modal-body">
+													Thanks for registering for SSNMUN 19.<br>Follow us on our social media for updates.
+
+												</div>
 											</div>
 										</div>
 									</div>
