@@ -4,7 +4,7 @@ import csv
 app = Flask(__name__)
 @app.route("/")
 def home():
-    return render_template("index.html")
+    return render_template("test.html")
 
 @app.route('/handle_data', methods=['POST'])
 def handle_data():
