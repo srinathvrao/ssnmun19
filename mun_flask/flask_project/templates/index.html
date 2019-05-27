@@ -203,7 +203,7 @@
 				</div>
 				<div id = "apps">
 					<article id="main">
-						<header style = "background-image: url('images/Register.jpg'); margin-top: 0.2%;" >
+						<header style = "background-image: url('/static/images/Register.jpg'); margin-top: 0.2%;" >
 								<h2>APPLICATIONS</h2>
 								<p></p>
 						</header>
@@ -216,8 +216,115 @@
 										<div id="sidebar">
 											<h3 style = "color: black;" align="center">Priority<br>Registration</h3>
 											<!-- Sidebar -->
+
 											<section id="regDel" >
-												<button type="button" style = "background: black; border:none; color: white;" class="special" data-toggle="modal" data-target="#reg-del">APPLY</button>
+<script type="text/javascript">
+																		function removeOptions(selectbox)
+																			{
+																			    var i;
+																			    for(i = selectbox.options.length - 1 ; i >= 0 ; i--)
+																			    {
+																			        selectbox.remove(i);
+																			    }
+																			}
+																			function remCount(){
+																				var countr = document.getElementById("countryPref1");
+																			    removeOptions(countr);
+																			    var opt = document.createElement('option');
+																			    opt.appendChild( document.createTextNode("--- Select One ---") );
+																			    opt.value = "";
+																			    countr.appendChild(opt); 
+																			}
+																		
+																		function fillCountries(){
+																			remCount();
+																			var countr = document.getElementById("countryPref1");
+	
+																			$.ajax({
+																			    type: "POST",
+																			    url: "api_countries",
+																			    dataType: 'JSON',
+																			    data: {functionname: 'add', arguments: [1, 2]},
+
+																			    success: function (obj, textstatus) {
+																			                  if( !('error' in obj) ) {
+																			                      disec = obj.DISEC;
+																			                      ecofin = obj.ECOFIN;
+																			                      sc = obj.SC;
+																			                      hrc = obj.HRC;
+	tes="";
+	tes2="";
+	cond="";
+	dlen=disec.length;
+	d = disec.split(",");
+	dlen = d.length;
+	for (var i = 0; i < dlen; i++) {
+		a = d[i].split("_");
+		if (a[1]=="ava") {
+			var opt = document.createElement('option');
+			opt.appendChild( document.createTextNode("DISEC - "+a[0]) );
+			opt.value = "DISEC_"+a[0];
+			countr.appendChild(opt); 
+		}
+	}
+	tes="";
+	tes2="";
+	cond="";
+	dlen=ecofin.length;
+	d = ecofin.split(",");
+	dlen = d.length;
+	for (var i = 0; i < dlen; i++) {
+		a = d[i].split("_");
+		if (a[1]=="ava") {
+			var opt = document.createElement('option');
+			opt.appendChild( document.createTextNode("ECOFIN - "+a[0]) );
+			opt.value = "ECOFIN_"+a[0];
+			countr.appendChild(opt); 
+		}
+	}
+	tes="";
+	tes2="";
+	cond="";
+	dlen=sc.length;
+	d = sc.split(",");
+	dlen = d.length;
+	for (var i = 0; i < dlen; i++) {
+		a = d[i].split("_");
+		if (a[1]=="ava") {
+			var opt = document.createElement('option');
+			opt.appendChild( document.createTextNode("SC - "+a[0]) );
+			opt.value = "SC_"+a[0];
+			countr.appendChild(opt); 
+		}
+	}
+	tes="";
+	tes2="";
+	cond="";
+	dlen=hrc.length;
+	d = hrc.split(",");
+	dlen = d.length;
+	for (var i = 0; i < dlen; i++) {
+		a = d[i].split("_");
+		if (a[1]=="ava") {
+			var opt = document.createElement('option');
+			opt.appendChild( document.createTextNode("HRC - "+a[0]) );
+			opt.value = "HRC_"+a[0];
+			countr.appendChild(opt); 
+		}
+	}
+																			                  }
+																			                  else {
+																			                      alert("ERROR!! Please try again later.");
+																			                  }
+																			            }
+																			            error: function(XMLHttpRequest, textStatus, errorThrown) {
+																						     alert("An error occurred. Please try again later.");
+																						  }
+																			});
+
+																        }
+																	</script>
+												<button type="button" onclick="fillCountries()" style = "background: black; border:none; color: white;" class="special" data-toggle="modal" data-target="#reg-del">APPLY</button>
 												<!-- Modal -->
 												<div class="modal fade" id="reg-del" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 													<div class="modal-dialog" style = "color: black;">
@@ -228,7 +335,7 @@
 																</span>
 																<h3 class="modal-title" id="myModalLabel">Priority Registration</h3>
 															</div>
-															<form role="form" action="{{ url_for('handle_data') }}" method="post" name="formDel" class="formDel" target="_self" novalidate >
+															<form role="form" action="{{ url_for('handle_data') }}" method="post" name="formDel" class="formDel" target="_self">
 																<div class="modal-body">
 																	<div class="form-group">
 																		<label for="nameDel">Name</label>
@@ -248,7 +355,7 @@
 																	<div class="form-group" >
 																		<label for="emailDel">E-Mail ID</label>
 																		<input type="email" class="form-control" id="emailDel" name="email" placeholder="Your E-Mail ID" required />
-																		<p class="help-block">Your E-Mail ID is required</p>
+																		<p class="help-block">Only one E-Mail ID per registration.</p>
 																	</div>
 
 																	<div class="form-group" >
@@ -261,61 +368,21 @@
 																		<textarea rows="4" class="form-control" id="expDel" name="exp" placeholder="S. No. - Name of the MUN - Year - Award(if any)" required></textarea>
 																		<p class="help-block">Required</p>
 																	</div>
-																	<script type="text/javascript">
-																		function removeOptions(selectbox)
-																			{
-																			    var i;
-																			    for(i = selectbox.options.length - 1 ; i >= 0 ; i--)
-																			    {
-																			        selectbox.remove(i);
-																			    }
-																			}
-																		function fillCountries(){
-																			var comm = document.getElementById("comPref1").value;
-																			$.ajax({
-																			   url:"/static/countrymatrix.csv",
-																			   dataType:"text",
-																			   success:function(data)
-																			   {
-																			    var employee_data = data.split(/\r?\n|\r/);
-																			    var countr = document.getElementById("countryPref1");
-																			    removeOptions(countr);
-																			    var opt = document.createElement('option');
-																			    opt.appendChild( document.createTextNode("--- Select One ---") );
-																			    opt.value = "";
-																			    countr.appendChild(opt); 
-																			    for(var count = 0; count<employee_data.length; count++)
-																			    {
-																			     var cell_data = employee_data[count].split(",");
-																			     var coun = cell_data[0];
-																			     var comm2 = cell_data[1];
-																			     if(comm == comm2){
-																			     	var opt = document.createElement('option');
-																			     	opt.appendChild( document.createTextNode(coun) );
-																			     	opt.value = coun;
-																			     	countr.appendChild(opt); 
-																			     }
-																			     
-																			    }
-																			   }
-																			  });
-																			
-																		}
-																	</script>
+																	
 																	<div class="row">
-																		<div class="form-group col-sm-5" >
-																			<label for="pref1">Committee Preference</label>
-																			<select onchange="if (this.selectedIndex) fillCountries();" class="form-control" id="comPref1" name="comPref1" required>
+																		<!-- <div class="form-group col-sm-5" > -->
+																			<!-- <label for="pref1">Committee Preference</label> -->
+<!-- 																			<select onchange="if (this.selectedIndex) fillCountries(); else remCount();" class="form-control" id="comPref1" name="comPref1" required>
 																				<option value="">--- Select One ---</option>
 																				<option value="DISEC">Disarmamaent and International Security Council</option>
 																				<option value="SC">Security Council</option>
 																				<option value="ECOFIN">Economic and Financial Committee</option>
 																				<option value="HRC">Human Rights Committee</option>
 																			</select>
-																			<p class="help-block">Required</p>
-																		</div>
+																			<p class="help-block">Required</p> -->
+																		<!-- </div> -->
 																		<div class="form-group col-sm-7" >
-																			<label for="countryPref1">Country Preference</label>
+																			<label for="countryPref1">Preference</label>
 																			<select class="form-control" id="countryPref1" name="countryPref1" required>
 																				<option value="">--- Select One ---</option>
 																			</select>

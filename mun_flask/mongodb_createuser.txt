@@ -1,0 +1,60 @@
+db.createUser(
+ {
+    user:"srinath",
+    pwd:"srinath",
+    roles: [{ role: "readWrite", db: "myDatabase" }]
+ }
+)
+db.regs.insert(
+ {
+ 	"regno":"PDISEC001",
+    "email":"srinathv1001@gmail.com",
+    "name":"adydajgs",
+    "college":"SSN CE",
+    "phone":1234567890,
+    "nomuns":123,
+    "munexp":"yoyo\nyoyoMUN",
+    "pref":"DISEC_INDIA",
+    "time":"18:43:11.187823"
+ }
+)
+db.conregs.insert(
+ {
+ 	"regno":"PDISEC002",
+ 	"email":"hell@gmail.com",
+    "name":"adydajgs",
+    "college":"SSN CE",
+    "phone":1234567890,
+    "nomuns":123,
+    "munexp":"yoyo\nyoyoMUN",
+    "pref":"DISEC_AMERICA",
+    "time":"12:30:57"
+ }
+)
+
+
+db.matrix.insertMany([
+  {
+  	"DISEC":"INDIA_ava",
+  	"ECOFIN":"INDIA_ava",
+  	"SC":"INDIA_ava",
+  	"HRC":"INDIA_ava"
+  },
+  {
+  	"DISEC":"AMERICA_ava",
+  	"ECOFIN":"AMERICA_ava",
+  	"SC":"AMERICA_ava",
+  	"HRC":"AMERICA_ava"
+  },
+  {
+  	"DISEC":"CHINA_ava",
+  	"SC":"CHINA_ava",
+  	"HRC":"CHINA_ava"
+  },
+  {
+  	"DISEC":"NIGERIA_ava",
+  	"ECOFIN":"NIGERiA_ava",
+  	"HRC":"NIGERIA_ava"
+  }
+])
+
