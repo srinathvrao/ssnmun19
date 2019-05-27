@@ -33,28 +33,29 @@ db.conregs.insert(
 )
 
 
-db.matrix.insertMany([
+db.matrix.insert(
   {
   	"DISEC":"INDIA_ava",
   	"ECOFIN":"INDIA_ava",
   	"SC":"INDIA_ava",
   	"HRC":"INDIA_ava"
-  },
+  })
+db.matrix.insert(
   {
   	"DISEC":"AMERICA_ava",
   	"ECOFIN":"AMERICA_ava",
   	"SC":"AMERICA_ava",
   	"HRC":"AMERICA_ava"
-  },
+  })
+db.matrix.insert(
   {
   	"DISEC":"CHINA_ava",
   	"SC":"CHINA_ava",
   	"HRC":"CHINA_ava"
-  },
-  {
+  })
+db.matrix.insert({
   	"DISEC":"NIGERIA_ava",
   	"ECOFIN":"NIGERiA_ava",
   	"HRC":"NIGERIA_ava"
-  }
-])
+})
 
