@@ -14,17 +14,20 @@ def home():
 @app.route("/api_countries",methods=['POST'])
 def fillCountries():
     try:
-        testh = mongo.db.matrix.find()
+        s = request.get_data()
+        s = str(s)
+        x = s[2:(len(s)-1)]
+        s = x
+        testh = mongo.db.matrix.distinct(s)
         myDICK = {}
+        count=0
+
         for doc in testh:
-            myDICK1 = dict(doc)
-            for k,v in myDICK1.items():
-                if k in myDICK.keys() and str(k) != "_id":
-                    myDICK[str(k)] += "," + str(v)
-                elif k not in myDICK.keys() and str(k) != "_id":
-                    myDICK[str(k)] = str(v)
-        for v in myDICK.values():
-            print(str(v))
+            s = str(doc).split("_")
+            if s[1] == "ava":
+                myDICK[str(count)] = s[0]
+                count+=1
+        print(myDICK)
         return jsonify(myDICK)
     except Exception as e:
         print(str(e))
@@ -38,10 +41,13 @@ def handle_data():
     email = request.form['email']
     nomuns = request.form['no_del']
     exp = request.form["exp"]
-    pref = request.form["countryPref1"]
-    pre = pref.split("_")
-    comPref = pre[0]
-    countryPref = pre[1]
+    comPref = request.form["comPref1"]
+    countryPref = request.form["countryPref1"]
+    # pref = request.form["countryPref1"]
+    pre = comPref+"_"+countryPref
+    print(pref)
+    # comPref = pre[0]
+    # countryPref = pre[1]
     testh = mongo.db.regs.find({"email": email})
 
     check=0
@@ -100,6 +106,7 @@ def handle_data():
                 testh = mongo.db.conregs.find({"pref":pref})
                 check=0
                 for doc in testh:
+                    print(doc)
                     check=1
                     break
                 if check==1:

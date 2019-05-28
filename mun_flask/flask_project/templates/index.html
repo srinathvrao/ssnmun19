@@ -75,78 +75,24 @@
 
 																		function fillCountries(){
 																			remCount();
-																			var countr = document.getElementById("countryPref1");
-	$.ajax({
+																			var countr = document.getElementById("comPref1");
+																			var s = countr.value;
+																			$.ajax({
 	type: "POST",
 	url: "api_countries",
 	dataType: 'JSON',
-	data: {functionname: 'add', arguments: [1, 2]},
+	data: s,
 
 	success: function (obj, textstatus) {
 		if( !('error' in obj) ) {
-			disec = obj.DISEC;
-			ecofin = obj.ECOFIN;
-			sc = obj.SC;
-			hrc = obj.HRC;
-			tes="";
-			tes2="";
-			cond="";
-			dlen=disec.length;
-			d = disec.split(",");
-			dlen = d.length;
-			for (var i = 0; i < dlen; i++) {
-				a = d[i].split("_");
-				if (a[1]=="ava") {
-					var opt = document.createElement('option');
-					opt.appendChild( document.createTextNode("DISEC - "+a[0]) );
-					opt.value = "DISEC_"+a[0];
-					countr.appendChild(opt); 
-				}
-			}
-			tes="";
-			tes2="";
-			cond="";
-			dlen=ecofin.length;
-			d = ecofin.split(",");
-			dlen = d.length;
-			for (var i = 0; i < dlen; i++) {
-				a = d[i].split("_");
-				if (a[1]=="ava") {
-					var opt = document.createElement('option');
-					opt.appendChild( document.createTextNode("ECOFIN - "+a[0]) );
-					opt.value = "ECOFIN_"+a[0];
-					countr.appendChild(opt); 
-				}
-			}
-			tes="";
-			tes2="";
-			cond="";
-			dlen=sc.length;
-			d = sc.split(",");
-			dlen = d.length;
-			for (var i = 0; i < dlen; i++) {
-				a = d[i].split("_");
-				if (a[1]=="ava") {
-					var opt = document.createElement('option');
-					opt.appendChild( document.createTextNode("SC - "+a[0]) );
-					opt.value = "SC_"+a[0];
-					countr.appendChild(opt); 
-				}
-			}
-			tes="";
-			tes2="";
-			cond="";
-			dlen=hrc.length;
-			d = hrc.split(",");
-			dlen = d.length;
-			for (var i = 0; i < dlen; i++) {
-				a = d[i].split("_");
-				if (a[1]=="ava") {
-					var opt = document.createElement('option');
-					opt.appendChild( document.createTextNode("HRC - "+a[0]) );
-					opt.value = "HRC_"+a[0];
-					countr.appendChild(opt); 
-				}
+			le = Object.values(obj);
+			l = le.length;
+			var countr = document.getElementById("countryPref1");
+			for (var i = 0; i < l; i++) {
+				var opt = document.createElement('option');
+				opt.appendChild( document.createTextNode(le[i]) );
+				opt.value = le[i];
+				countr.appendChild(opt); 
 			}
 		}
 		else {
@@ -157,6 +103,7 @@
 		alert("An error occurred. Please try again later.");
 	}
 });
+
 
 																        }
 																	</script>
@@ -324,7 +271,7 @@
 
 											<section id="regDel" >
 													
-												<button type="button" id="apply" onclick="fillCountries();" style = "background: black; border:none; color: white;" class="special" data-toggle="modal" data-target="#reg-del">APPLY</button>
+												<button type="button" id="apply" style = "background: black; border:none; color: white;" class="special" data-toggle="modal" data-target="#reg-del">APPLY</button>
 												<!-- Modal -->
 												<div class="modal fade" id="reg-del" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 													<div class="modal-dialog" style = "color: black;">
@@ -370,19 +317,19 @@
 																	</div>
 																	
 																	<div class="row">
-																		<!-- <div class="form-group col-sm-5" > -->
-																			<!-- <label for="pref1">Committee Preference</label> -->
-<!-- 																			<select onchange="if (this.selectedIndex) fillCountries(); else remCount();" class="form-control" id="comPref1" name="comPref1" required>
+																		<div class="form-group col-sm-5" >
+																			<label for="pref1">Committee Preference</label>
+																			<select onchange="if (this.selectedIndex) fillCountries(); else remCount();" class="form-control" id="comPref1" name="comPref1" required>
 																				<option value="">--- Select One ---</option>
 																				<option value="DISEC">Disarmamaent and International Security Council</option>
 																				<option value="SC">Security Council</option>
 																				<option value="ECOFIN">Economic and Financial Committee</option>
 																				<option value="HRC">Human Rights Committee</option>
 																			</select>
-																			<p class="help-block">Required</p> -->
-																		<!-- </div> -->
+																			<p class="help-block">Required</p>
+																		</div>
 																		<div class="form-group col-sm-7" >
-																			<label for="countryPref1">Preference</label>
+																			<label for="countryPref1">Country Preference</label>
 																			<select class="form-control" id="countryPref1" name="countryPref1" required>
 																				<option value="">--- Select One ---</option>
 																			</select>
