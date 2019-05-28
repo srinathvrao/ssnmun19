@@ -88,6 +88,9 @@
 			le = Object.values(obj);
 			l = le.length;
 			var countr = document.getElementById("countryPref1");
+                        if (l == 0){
+				alert("No countries left for "+s);
+			}
 			for (var i = 0; i < l; i++) {
 				var opt = document.createElement('option');
 				opt.appendChild( document.createTextNode(le[i]) );

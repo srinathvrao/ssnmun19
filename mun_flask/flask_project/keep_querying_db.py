@@ -96,6 +96,8 @@ while True:
             hours = seconds // 3600
             minutes = (seconds % 3600) // 60
             seconds = seconds % 60
+            print(s1+" "+s2)
+            print(str(minutes))
             if minutes >= 10:
                 # doc["email"]
                 pref = doc["pref"]
@@ -121,3 +123,4 @@ while True:
                             
                         #t = mongo.db.regs.deleteOne({"email":em})
     time.sleep(2)
+    print("==")

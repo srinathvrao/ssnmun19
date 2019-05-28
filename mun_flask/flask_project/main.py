@@ -3,12 +3,17 @@ import csv
 from flask_pymongo import PyMongo
 import datetime
 from datetime import timedelta  
-import smtplib
+import os
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
 
 app = Flask(__name__)
 app.config["MONGO_URI"] = "mongodb://srinath:srinath@localhost:27017/myDatabase"
 mongo = PyMongo(app)
 @app.route("/")
+def displ():
+        return render_template("test.html")
+@app.route("/testinghereboiz")
 def home():
 	return render_template("index.html")
 
@@ -46,12 +51,11 @@ def handle_data():
     comPref = request.form["comPref1"]
     countryPref = request.form["countryPref1"]
     # pref = request.form["countryPref1"]
-    pre = comPref+"_"+countryPref
-    print(pref)
+    pref = comPref+"_"+countryPref
+#    print(pref)
     # comPref = pre[0]
     # countryPref = pre[1]
     testh = mongo.db.regs.find({"email": email})
-
     check=0
     for doc in testh:
     	print(doc)
@@ -124,14 +128,28 @@ def handle_data():
 
                     if x.acknowledged:
                         ti = datetime.datetime.now() + timedelta(seconds=600) 
-                        s = smtplib.SMTP('smtp.gmail.com', 587) 
-                        s.starttls() 
-                        s.login("ssnmun@gmail.com", "jerrygeorgethomas") 
+                        message = Mail(
+                           from_email='ssnmun@gmail.com',
+                           to_emails=email,
+                           subject='SSNMUN Priority Registration',
+                           html_content="Your registration number is :  "+reg+".<br>Your Email-ID is : "+email+". <strong>This is valid for 10 minutes, till "+str(ti) +".</strong> Enter the same E-mail ID and Registration number in the payment portal<br>http://www.ssn.edu.in/apps/mun-payment-form/")
+
+#                        s = smtplib.SMTP('smtp.gmail.com', 587) 
+#                        s.starttls() 
+ #                       s.login("ssnmun@gmail.com", "jerrygeorgethomas") 
                         # message to be sent 
-                        message = "Your registration number is :  "+reg+"\nYour Email-ID is : "+email+".\nThis is valid for 10 minutes, till "+str(ti) +".\nEnter the same E-mail ID and Registration number in the payment portal: http://www.ssn.edu.in/apps/mun-payment-form/"
+  #                      message = "Your registration number is :  "+reg+"\nYour Email-ID is : "+email+".\nThis is valid for 10 minutes, till "+str(ti) +".\nEnter the same E-mail ID and Registration number in the payment portal: http://www.ssn.edu.in/apps/mun-payment-form/"
                         # sending the mail 
-                        s.sendmail("ssnmun@gmail.com", email,message) 
-                        s.quit()
+   #                     s.sendmail("ssnmun@gmail.com", email,message) 
+    #                    s.quit()
+                        try:
+                            sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+                            response = sg.send(message)
+                            print(str(response.status_code)+" yoooooo")
+                            print(str(response.body) + " wasssuppp")
+                            print(str(response.headers) + " zhczkxjchkz")
+                        except Exception as e:
+                            print("Error!! "+str(e.message))
                         return "<div><p align='center'><hr /><h2>Your registration number is :  "+reg+"</h2><h3><br>Your Email-ID is : "+email+"<br>This is valid for 10 minutes, till <h2>"+str(ti) +"</h2>.<br>Enter the same E-mail ID and Registration number in the payment portal<br></h3><a href=\"http://www.ssn.edu.in/apps/mun-payment-form/\">Proceed to make payment</a><hr /></p></div>"
                     else:
                         return "<h3>Error registering in database.</h3>"
