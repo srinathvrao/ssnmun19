@@ -37,7 +37,7 @@ db.matrix.insert(
   {
   	"DISEC":"INDIA_ava",
   	"ECOFIN":"INDIA_ava",
-  	"SC":"INDIA_ava",
+  	"SC":"INDIA_pri",
   	"HRC":"INDIA_ava"
   })
 db.matrix.insert(

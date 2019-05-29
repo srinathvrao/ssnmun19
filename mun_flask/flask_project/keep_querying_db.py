@@ -74,11 +74,12 @@ while True:
                                 message = Mail(
                                        from_email='ssnmun@gmail.com',
                                        to_emails=email,
-                                       subject='SSNMUN Priority Registration Deleted',
+                                       subject='Priority Registration Confirmation',
                                        html_content="Hurrah! Your priority registration for the MUN has been confirmed. Registration number - "+reg+" Preference: "+pref+" See you there!~")
                                 try:
                                     sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
                                     response = sg.send(message)
+                                    print("SENT CONFIRMATION!!")
 
                                 except Exception as e:
                                     print("Error! "+str(e.message))
@@ -116,7 +117,7 @@ while True:
                 message = Mail(
                            from_email='ssnmun@gmail.com',
                            to_emails=email,
-                           subject='SSNMUN Priority Registration Deleted',
+                           subject='Priority Registration Deleted',
                            html_content='Sorry! Your priority registration for the MUN has exceeded the time limit, and has been deleted.')
                 try:
                     sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
