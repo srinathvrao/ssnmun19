@@ -5,7 +5,9 @@ import datetime
 from datetime import timedelta  
 import time
 import easyimap
-import smtplib 
+import os
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
 
 
 app = Flask(__name__)
@@ -58,28 +60,28 @@ while True:
                                 reg = f["regno"]
                                 c=0
                                 le = len(pref)
-                                print(pref)
                                 for i in range(le):
                                     if pref[i]=="_":
                                         c=i
                                         break
                                 # pref[:c] - committee
                                 # pref[c+1:] - country
-                                print(em)
-                                print(pref[:c])
-                                print(pref[c+1:])
                                 myquery = { pref[:c]:  pref[c+1:]+ "_pri" }
                                 newvalues = { "$set": { pref[:c]: pref[c+1:]+"_loc" } }
                                 mongo.db.matrix.update_one(myquery,newvalues)
                                 mongo.db.regs.delete_one({"email":em})
                                 # send person a confirmation email.
-                                s = smtplib.SMTP('smtp.gmail.com', 587) 
-                                s.starttls() 
-                                s.login("ssnmun@gmail.com", "jerrygeorgethomas") 
-                                # message to be sent 
-                                message = "Hurrah! Your priority registration for the MUN has been confirmed. Registration number - "+reg+" Preference: "+pref+" See you there!~"
-                                s.sendmail("ssnmun@gmail.com", em, message) 
-                                s.quit() 
+                                message = Mail(
+                                       from_email='ssnmun@gmail.com',
+                                       to_emails=email,
+                                       subject='SSNMUN Priority Registration Deleted',
+                                       html_content="Hurrah! Your priority registration for the MUN has been confirmed. Registration number - "+reg+" Preference: "+pref+" See you there!~")
+                                try:
+                                    sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+                                    response = sg.send(message)
+
+                                except Exception as e:
+                                    print("Error! "+str(e.message))
 
         testh = mongo.db.regs.find()
         for doc in testh:
@@ -111,16 +113,16 @@ while True:
                 myquery = { pref[:c]:  pref[c+1:]+ "_pri" }
                 newvalues = { "$set": { pref[:c]: pref[c+1:]+"_ava" } }
                 mongo.db.matrix.update_one(myquery,newvalues)
-                s = smtplib.SMTP('smtp.gmail.com', 587) 
-                s.starttls() 
-                s.login("ssnmun@gmail.com", "jerrygeorgethomas") 
-                # message to be sent 
-                message = "Sorry! Your priority registration for the MUN has passed the time limit, and has been deleted."
-                # sending the mail 
-                s.sendmail("ssnmun@gmail.com", doc["email"], message) 
-                s.quit()                     
-
+                message = Mail(
+                           from_email='ssnmun@gmail.com',
+                           to_emails=email,
+                           subject='SSNMUN Priority Registration Deleted',
+                           html_content='Sorry! Your priority registration for the MUN has exceeded the time limit, and has been deleted.')
+                try:
+                    sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+                    response = sg.send(message)
+                except Exception as e:
+                    print("Error! "+str(e.message))
                             
                         #t = mongo.db.regs.deleteOne({"email":em})
     time.sleep(2)
-    print("==")
