@@ -75,7 +75,7 @@ while True:
                                        from_email='ssnmun@gmail.com',
                                        to_emails=email,
                                        subject='Priority Registration Confirmation',
-                                       html_content="Hurrah! Your priority registration for the MUN has been confirmed. Registration number - "+reg+" Preference: "+pref+" See you there!~")
+                                       html_content="Hurrah! Your priority registration for the MUN has been confirmed.<br>Registration number - "+reg+"<br>Preference: "+pref+"<br>See you there!~")
                                 try:
                                     sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
                                     response = sg.send(message)

@@ -34,7 +34,7 @@ def fillCountries():
             if s[1] == "ava":
                 myDICK[str(count)] = s[0]
                 count+=1
-        print(myDICK)
+        #print(myDICK)
         return jsonify(myDICK)
     except Exception as e:
         print(str(e))
@@ -144,10 +144,11 @@ def handle_data():
     #                    s.quit()
                         try:
                             sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+                            print(str(os.environ.get('SENDGRID_API_KEY')))
                             response = sg.send(message)
-                            print(str(response.status_code)+" yoooooo")
-                            print(str(response.body) + " wasssuppp")
-                            print(str(response.headers) + " zhczkxjchkz")
+                           # print(str(response.status_code)+" yoooooo")
+                           # print(str(response.body) + " wasssuppp")
+                           # print(str(response.headers) + " zhczkxjchkz")
                         except Exception as e:
                             print("Error!! ======= "+str(e.message))
                         return "<div><p align='center'><hr /><h2>Your registration number is :  "+reg+"</h2><h3><br>Your Email-ID is : "+email+"<br>This is valid for 10 minutes, till <h2>"+str(ti) +"</h2>.<br>Enter the same E-mail ID and Registration number in the payment portal<br></h3><a href=\"http://www.ssn.edu.in/apps/mun-payment-form/\">Proceed to make payment</a><hr /></p></div>"
