@@ -8,14 +8,14 @@ db.createUser(
 db.regs.insert(
  {
  	"regno":"PDISEC001",
-    "email":"srinathv1001@gmail.com",
+    "email":"srinathv17111@it.ssn.edu.in",
     "name":"adydajgs",
     "college":"SSN CE",
     "phone":1234567890,
     "nomuns":123,
     "munexp":"yoyo\nyoyoMUN",
-    "pref":"DISEC_INDIA",
-    "time":"18:43:11.187823"
+    "pref":"DISEC_CHINA",
+    "time":"11:29:29.187823"
  }
 )
 db.conregs.insert(
