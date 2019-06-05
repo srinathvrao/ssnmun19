@@ -11,6 +11,34 @@ from email.mime.base import MIMEBase
 from email.encoders import encode_base64
 import os
 
+def sendFirstem(reg,pref,em,ti):
+    try:
+        login = 'ssnmun@gmail.com'
+        password = 'jerrygeorgethomas'
+        sender = 'ssnmun@gmail.com'
+        receivers = [em]
+
+        msg = MIMEMultipart()
+        msg['From'] = sender
+        msg['To'] = ", ".join(receivers)
+        msg['Subject'] = "SSNMUN'19 Priority Registration"
+        # Simple text message or HTML
+        TEXT = "Registration number: "+reg+"\n"
+        TEXT = TEXT + "Preference: "+pref+"\n"
+        TEXT = TEXT + "<strong>This is valid for 10 minutes, till "+str(ti) +".</strong>\n"
+        TEXT = TEXT + "Enter the same E-mail ID and Registration number in the payment - \nportal<br>http://www.ssn.edu.in/apps/mun-payment-form/"
+
+        msg.attach(MIMEText(TEXT))
+
+        smtpObj = smtplib.SMTP('smtp.gmail.com:587')
+        smtpObj.ehlo()
+        smtpObj.starttls()
+        smtpObj.login(login, password)
+        smtpObj.sendmail(sender, receivers, msg.as_string())
+        
+    except Exception as e:
+        print(str(e))
+
 app = Flask(__name__)
 app.config["MONGO_URI"] = "mongodb://srinath:srinath@localhost:27017/myDatabase"
 mongo = PyMongo(app)
@@ -132,30 +160,11 @@ def handle_data():
 
                     if x.acknowledged:
                         ti = datetime.datetime.now() + timedelta(seconds=600) 
-                        message = Mail(
-                           from_email='ssnmun@gmail.com',
-                           to_emails=email,
-                           subject='SSNMUN Priority Registration',
-                           html_content="Your registration number is :  "+reg+".<br>Your Email-ID is : "+email+". <strong>This is valid for 10 minutes, till "+str(ti) +".</strong> Enter the same E-mail ID and Registration number in the payment portal<br>http://www.ssn.edu.in/apps/mun-payment-form/")
-
-#                        s = smtplib.SMTP('smtp.gmail.com', 587) 
-#                        s.starttls() 
- #                       s.login("ssnmun@gmail.com", "jerrygeorgethomas") 
-                        # message to be sent 
-  #                      message = "Your registration number is :  "+reg+"\nYour Email-ID is : "+email+".\nThis is valid for 10 minutes, till "+str(ti) +".\nEnter the same E-mail ID and Registration number in the payment portal: http://www.ssn.edu.in/apps/mun-payment-form/"
-                        # sending the mail 
-   #                     s.sendmail("ssnmun@gmail.com", email,message) 
-    #                    s.quit()
                         try:
-                            sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
-                            print(str(os.environ.get('SENDGRID_API_KEY')))
-                            response = sg.send(message)
-                           # print(str(response.status_code)+" yoooooo")
-                           # print(str(response.body) + " wasssuppp")
-                           # print(str(response.headers) + " zhczkxjchkz")
+                            sendFirstem(reg,pref,email,ti)
                         except Exception as e:
                             print("Error!! ======= "+str(e))
-                        return "<div><p align='center'><hr /><h2>Your registration number is :  "+reg+"</h2><h3><br>Your Email-ID is : "+email+"<br>This is valid for 10 minutes, till <h2>"+str(ti) +"</h2>.<br>Enter the same E-mail ID and Registration number in the payment portal<br></h3><a href=\"http://www.ssn.edu.in/apps/mun-payment-form/\">Proceed to make payment</a><hr /></p></div>"
+                        return "<div><p align='center'><hr /><h2>Your registration number is :  "+reg+"</h2><h3><br>Your Email-ID is : "+email+"<br>This is valid for 10 minutes, till <h2>"+str(ti) +"</h2>.<br>Enter the same E-mail ID and Registration number in the payment portal<br></h3><a href=\"http://www.ssn.edu.in/apps/mun-payment-form/\">Proceed to make payment</a><hr /> <h5>Check E-mail inbox/spam for details.</h5></p></div>"
                     else:
                         return "<h3>Error registering in database.</h3>"
 
