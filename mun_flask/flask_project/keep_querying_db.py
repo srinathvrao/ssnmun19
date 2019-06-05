@@ -99,8 +99,8 @@ while True:
                 hours = seconds // 3600
                 minutes = (seconds % 3600) // 60
                 seconds = seconds % 60
-                print(s1+" "+s2+" "+str(doc["email"]))
-                print(str(minutes))
+              #  print(s1+" "+s2+" "+str(doc["email"]))
+                print(str(minutes)+" " + str(doc["email"]))
                 if minutes >= 10:
                     # doc["email"]
                     pref = doc["pref"]
@@ -114,6 +114,7 @@ while True:
                     myquery = { pref[:c]:  pref[c+1:]+ "_pri" }
                     newvalues = { "$set": { pref[:c]: pref[c+1:]+"_ava" } }
                     mongo.db.matrix.update_one(myquery,newvalues)
+                    print("Deleted "+str(doc["email"]))
                     message = Mail(
                                from_email='ssnmun@gmail.com',
                                to_emails=email,
