@@ -17,25 +17,22 @@ app = Flask(__name__)
 app.config["MONGO_URI"] = "mongodb://srinath:srinath@localhost:27017/myDatabase"
 mongo = PyMongo(app)
 
-def sendDeletedEM():
+def sendDeletedEM(em):
     try:
-        login = 'my_account@gmail.com'
-        password = 'my_password'
-        sender = 'my_account@gmail.com'
-        receivers = ['my_account@gmail.com']
+        login = 'ssnmun@gmail.com'
+        password = 'jerrygeorgethomas'
+        sender = 'ssnmun@gmail.com'
+        receivers = [em]
 
         msg = MIMEMultipart()
         msg['From'] = sender
         msg['To'] = ", ".join(receivers)
-        msg['Subject'] = "Test Message"
+        msg['Subject'] = "Priority Registration"
 
         # Simple text message or HTML
-        TEXT = "Hello everyone,\n"
+        TEXT = "Hello.\n"
         TEXT = TEXT + "\n"
-        TEXT = TEXT + "Important message.\n"
-        TEXT = TEXT + "\n"
-        TEXT = TEXT + "Thanks,\n"
-        TEXT = TEXT + "SMTP Robot"
+        TEXT = TEXT + "Your priority registration for SSNMUN'19 exceeded the time limit and has been deleted.\n\n"
 
         msg.attach(MIMEText(TEXT))
 
@@ -48,22 +45,22 @@ def sendDeletedEM():
     except Exception as e:
         print(str(e))
 
-def sendAcceptedEM(reg,pref):
+def sendAcceptedEM(reg,pref,em):
     try:
-        login = 'my_account@gmail.com'
-        password = 'my_password'
-        sender = 'my_account@gmail.com'
-        receivers = ['my_account@gmail.com']
+        login = 'ssnmun@gmail.com'
+        password = 'jerrygeorgethomas'
+        sender = 'ssnmun@gmail.com'
+        receivers = [em]
 
         msg = MIMEMultipart()
         msg['From'] = sender
         msg['To'] = ", ".join(receivers)
-        msg['Subject'] = "Test Message"
+        msg['Subject'] = "Priority Registration Confirmation"
 
         # Simple text message or HTML
         TEXT = "Hurrah!\n"
         TEXT = TEXT + "\n"
-        TEXT = TEXT + "Your priority registration for the MUN has been confirmed.\n\n"
+        TEXT = TEXT + "Your priority registration for SSNMUN'19 has been confirmed.\n\n"
         TEXT = TEXT + "Registration number: "+reg+"\n"
         TEXT = TEXT + "Preference: "+pref+"\n"
         TEXT = TEXT + "See you there!"
@@ -137,7 +134,7 @@ while True:
                                     mongo.db.regs.delete_one({"email":em})
                                     # send person a confirmation email.
                                     try:
-                                        sendAcceptedEM(reg,pref)
+                                        sendAcceptedEM(reg,pref,em)
                                     except Exception as e:
                                         print("Error! "+str(e))
 
@@ -173,7 +170,7 @@ while True:
                     mongo.db.matrix.update_one(myquery,newvalues)
                     print("Deleted "+str(doc["email"]))
                     try:
-                        sendDeletedEM()
+                        sendDeletedEM(doc["email"])
                     except Exception as e:
                         print("Error! "+str(e))
     except Exception as e:
