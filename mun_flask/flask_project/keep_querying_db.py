@@ -5,14 +5,79 @@ import datetime
 from datetime import timedelta  
 import time
 import easyimap
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+from email.encoders import encode_base64
 import os
-from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import Mail
 
 
 app = Flask(__name__)
 app.config["MONGO_URI"] = "mongodb://srinath:srinath@localhost:27017/myDatabase"
 mongo = PyMongo(app)
+
+def sendDeletedEM():
+    try:
+        login = 'my_account@gmail.com'
+        password = 'my_password'
+        sender = 'my_account@gmail.com'
+        receivers = ['my_account@gmail.com']
+
+        msg = MIMEMultipart()
+        msg['From'] = sender
+        msg['To'] = ", ".join(receivers)
+        msg['Subject'] = "Test Message"
+
+        # Simple text message or HTML
+        TEXT = "Hello everyone,\n"
+        TEXT = TEXT + "\n"
+        TEXT = TEXT + "Important message.\n"
+        TEXT = TEXT + "\n"
+        TEXT = TEXT + "Thanks,\n"
+        TEXT = TEXT + "SMTP Robot"
+
+        msg.attach(MIMEText(TEXT))
+
+        smtpObj = smtplib.SMTP('smtp.gmail.com:587')
+        smtpObj.ehlo()
+        smtpObj.starttls()
+        smtpObj.login(login, password)
+        smtpObj.sendmail(sender, receivers, msg.as_string())
+        
+    except Exception as e:
+        print(str(e))
+
+def sendAcceptedEM(reg,pref):
+    try:
+        login = 'my_account@gmail.com'
+        password = 'my_password'
+        sender = 'my_account@gmail.com'
+        receivers = ['my_account@gmail.com']
+
+        msg = MIMEMultipart()
+        msg['From'] = sender
+        msg['To'] = ", ".join(receivers)
+        msg['Subject'] = "Test Message"
+
+        # Simple text message or HTML
+        TEXT = "Hurrah!\n"
+        TEXT = TEXT + "\n"
+        TEXT = TEXT + "Your priority registration for the MUN has been confirmed.\n\n"
+        TEXT = TEXT + "Registration number: "+reg+"\n"
+        TEXT = TEXT + "Preference: "+pref+"\n"
+        TEXT = TEXT + "See you there!"
+
+        msg.attach(MIMEText(TEXT))
+
+        smtpObj = smtplib.SMTP('smtp.gmail.com:587')
+        smtpObj.ehlo()
+        smtpObj.starttls()
+        smtpObj.login(login, password)
+        smtpObj.sendmail(sender, receivers, msg.as_string())
+        
+    except Exception as e:
+        print(str(e))
 
 while True:
     try:
@@ -71,18 +136,10 @@ while True:
                                     mongo.db.matrix.update_one(myquery,newvalues)
                                     mongo.db.regs.delete_one({"email":em})
                                     # send person a confirmation email.
-                                    message = Mail(
-                                           from_email='ssnmun@gmail.com',
-                                           to_emails=email,
-                                           subject='Priority Registration Confirmation',
-                                           html_content="Hurrah! Your priority registration for the MUN has been confirmed.<br>Registration number - "+reg+"<br>Preference: "+pref+"<br>See you there!~")
                                     try:
-                                        sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
-                                        response = sg.send(message)
-                                        print("SENT CONFIRMATION!!")
-
+                                        sendAcceptedEM(reg,pref)
                                     except Exception as e:
-                                        print("Error! "+str(e.message))
+                                        print("Error! "+str(e))
 
             testh = mongo.db.regs.find()
             for doc in testh:
@@ -115,16 +172,10 @@ while True:
                     newvalues = { "$set": { pref[:c]: pref[c+1:]+"_ava" } }
                     mongo.db.matrix.update_one(myquery,newvalues)
                     print("Deleted "+str(doc["email"]))
-                    message = Mail(
-                               from_email='ssnmun@gmail.com',
-                               to_emails=email,
-                               subject='Priority Registration Deleted',
-                               html_content='Sorry! Your priority registration for the MUN has exceeded the time limit, and has been deleted.')
                     try:
-                        sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
-                        response = sg.send(message)
+                        sendDeletedEM()
                     except Exception as e:
-                        print("Error! "+str(e.message))
+                        print("Error! "+str(e))
     except Exception as e:
         print(str(e))                            
                         #t = mongo.db.regs.deleteOne({"email":em})
