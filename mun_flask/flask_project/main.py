@@ -25,8 +25,8 @@ def sendFirstem(reg,pref,em,ti):
         # Simple text message or HTML
         TEXT = "Registration number: "+reg+"\n"
         TEXT = TEXT + "Preference: "+pref+"\n"
-        TEXT = TEXT + "<strong>This is valid for 10 minutes, till "+str(ti) +".</strong>\n"
-        TEXT = TEXT + "Enter the same E-mail ID and Registration number in the payment - \nportal<br>http://www.ssn.edu.in/apps/mun-payment-form/"
+        TEXT = TEXT + "This is valid for 10 minutes, till "+str(ti) +".\n"
+        TEXT = TEXT + "Enter the same E-mail ID and Registration number in the payment portal - \nhttp://www.ssn.edu.in/apps/mun-payment-form/"
 
         msg.attach(MIMEText(TEXT))
 
@@ -162,9 +162,11 @@ def handle_data():
                         ti = datetime.datetime.now() + timedelta(seconds=600) 
                         try:
                             sendFirstem(reg,pref,email,ti)
+                            return "<div><p align='center'><hr /><h2>Your registration number is :  "+reg+"</h2><h3><br>Your Email-ID is : "+email+"<br>This is valid for 10 minutes, till <h2>"+str(ti) +"</h2>.<br>Enter the same E-mail ID and Registration number in the payment portal<br></h3><a href=\"http://www.ssn.edu.in/apps/mun-payment-form/\">Proceed to make payment</a><hr /> <h5>Check E-mail inbox/spam for details.</h5></p></div>"
                         except Exception as e:
                             print("Error!! ======= "+str(e))
-                        return "<div><p align='center'><hr /><h2>Your registration number is :  "+reg+"</h2><h3><br>Your Email-ID is : "+email+"<br>This is valid for 10 minutes, till <h2>"+str(ti) +"</h2>.<br>Enter the same E-mail ID and Registration number in the payment portal<br></h3><a href=\"http://www.ssn.edu.in/apps/mun-payment-form/\">Proceed to make payment</a><hr /> <h5>Check E-mail inbox/spam for details.</h5></p></div>"
+                            return "Error!!"
+                        
                     else:
                         return "<h3>Error registering in database.</h3>"
 
