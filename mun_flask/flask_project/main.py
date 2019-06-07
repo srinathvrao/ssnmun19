@@ -44,10 +44,10 @@ app.config["MONGO_URI"] = "mongodb://srinath:srinath@localhost:27017/myDatabase"
 mongo = PyMongo(app)
 @app.route("/")
 def displ():
-        return render_template("test.html")
-@app.route("/testinghereboiz")
-def home():
-	return render_template("index.html")
+    return render_template("index.html")
+# @app.route("/testinghereboiz")
+# def home():
+# 	return render_template("index.html")
 
 @app.route("/api_countries",methods=['POST'])
 def fillCountries():
