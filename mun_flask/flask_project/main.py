@@ -107,8 +107,10 @@ def handle_data():
             lastreg=""
             regID = 0
             regID2 = 0
+            regsno=[]
             for doc in testh:
-                lastreg = doc
+                lastreg = doc[len(doc)-3:]
+                regsno.append(int(lastreg))
             if lastreg != "":
                 last = lastreg[len(lastreg)-3:]
                 regID = int(last)
@@ -116,13 +118,11 @@ def handle_data():
             testh = mongo.db.conregs.distinct("regno")
             lastreg=""
             for doc in testh:
-                lastreg = doc
-            if lastreg != "":
-                last = lastreg[len(lastreg)-3:]
-                regID2 = int(last)
-            reg2=""
-            if regID < regID2:
-                regID = regID2
+                lastreg = doc[len(doc)-3:]
+                regsno.append(int(lastreg))
+            # print(regsno)
+            # print(max(regsno))
+            regID = max(regsno)
             regID+=1
             if regID < 10:
                 reg = "P"+comPref+"00"+str(regID)
