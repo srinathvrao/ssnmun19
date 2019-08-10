@@ -187,9 +187,25 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     
 
 <script type="text/javascript">
-		  		function updateDB_test(){
+			function anon(){
+				var chec = document.getElementById("anonAsk");
+				if(chec.checked){
+					var depts = document.getElementById("Department");
+					var years = document.getElementById("User_year");
+					depts.style.visibility = "hidden";
+					years.style.visibility = "hidden";
+				}
+				else{
+					var depts = document.getElementById("Department");
+					var years = document.getElementById("User_year");
+					depts.style.visibility = "visible";
+					years.style.visibility = "visible";	
+				}
 
-		  			var ques = document.getElementById("txt_questionunpopup");
+			}
+			function updateDB_test(){
+
+		  		var ques = document.getElementById("txt_questionunpopup");
 				var x = document.getElementsByClassName("ynt-topics");
 				var s = ques.value;	
 				var topic = "";
@@ -199,33 +215,73 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 						break;
 					}
 				}
-				if(s=="")
-					alert("Enter your question!");
-				else if(topic=="") 
-					alert("Select the topic!");
-				else{
-				$.ajax({
-					type: "POST",
-					url: "/updateDB",
-					dataType:"json",
-					contentType: 'application/json',
-					data: {'data':s, 'topic':topic},
-					success: function(response){
-						var tick = document.getElementById("gtick");
-						tick.style.visibility = "visible";
-						var par = document.getElementById("submitted_ques");
-						par.innerHTML="<b>Submitted your question!</b>";
-						var ipbutt = document.getElementById("submit_butt");
-						ipbutt.style.display = "none";
-					},
-					error: function(error){
-						alert("Error submitting your question. Please try again later.");	
-					}
 
-				});	
-			}
-											        
+				var depts = document.getElementById("Department");
+				var dept = depts.options[depts.selectedIndex].value;
+				var years = document.getElementById("User_year");
+				var year = years.options[years.selectedIndex].value;
+				var chec = document.getElementById("anonAsk");
+				if(!chec.checked){
+					if(s=="")
+						alert("Enter your question!");
+					else if(topic=="") 
+						alert("Select the topic!");
+					else if(dept=="-")
+						alert("Select your Department, or Ask Anonymously.");
+					else if(year=="-")
+						alert("Select your year, or Ask Anonymously.");
+					else{
+						$.ajax({
+							type: "POST",
+							url: "/updateDB",
+							dataType:"json",
+							contentType: 'application/json',
+							data: {'data':s, 'topic':topic, 'anon':'0','dept':dept,'year':year},
+							success: function(response){
+								var tick = document.getElementById("gtick");
+								tick.style.visibility = "visible";
+								var par = document.getElementById("submitted_ques");
+								par.innerHTML="<b>Submitted your question!</b>";
+								var ipbutt = document.getElementById("submit_butt");
+								ipbutt.style.display = "none";
+							},
+							error: function(error){
+								alert("Error submitting your question. Please try again later.");	
+							}
+
+						});	
+					}
 				}
+				else{
+					if(s=="")
+						alert("Enter your question!");
+					else if(topic=="") 
+						alert("Select the topic!");
+					else{
+						$.ajax({
+							type: "POST",
+							url: "/updateDB",
+							dataType:"json",
+							contentType: 'application/json',
+							data: {'data':s, 'topic':topic,'anon':'1'},
+							success: function(response){
+								var tick = document.getElementById("gtick");
+								tick.style.visibility = "visible";
+								var par = document.getElementById("submitted_ques");
+								par.innerHTML="<b>Submitted your question!</b>";
+								var ipbutt = document.getElementById("submit_butt");
+								ipbutt.style.display = "none";
+							},
+							error: function(error){
+								alert("Error submitting your question. Please try again later.");	
+							}
+
+						});	
+					}
+				}
+
+											        
+			}
 		  	</script>
 <div class="row margin-top-n-btm" id="top_blockunpopup">
  	 <div class="wrapBanner">
@@ -268,7 +324,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			</div>
 			<div class="wraptext">
 				<div class="form-group">
-					   <textarea type="text" name="txt_question" id="txt_questionunpopup" class="txtquestion" maxlength="240" placeholder="Start typing your question"></textarea>
+					   <textarea type="text" name="txt_question" id="txt_questionunpopup" maxlength="240" placeholder="Start typing your question"></textarea>
 				</div>
 				<div class="letter-limit-count" id="textarea_feedbackunpopup" class="txtquestionfeedback">240 /240</div> 
 			</div>
@@ -348,7 +404,37 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			 			 </div>
 			<div id="ynt-validation-topicsunpopup" class="ynt-validation"></div>
 		  </div>
-		  
+
+		  <div class="col-lg-3 col-md-3 col-xs-3"><br></div>
+		  <div class="col-lg-4" style="text-align: center;">
+		  	<input type="checkbox" id="anonAsk" onclick="anon();" value="ano" name="Ask anonymously"> Ask Anonymously
+		  	<br><br>
+		  	<select id="Department" style="width: 100%; text-align: center; padding: 10px;">
+		  				<option value="-" selected="selected">Select your Department</option>
+						<option value="EEE">EEE</option>
+						<option value="ECE">ECE</option>
+						<option value="CSE">CSE</option>
+						<option value="IT" >IT</option>
+						<option value="MECH" >Mech</option>
+						<option value="CHEM" >Chem</option>
+						<option value="BME" >BME</option>
+						<option value="Civil" >Civil</option>
+						<option value="English" >English</option>
+						<option value="Mathematics" >Mathematics</option>
+						<option value="Physics" >Physics</option>
+						<option value="Chemistry" >Chemistry</option>
+						<option value="MBA">MBA</option>
+					  </select>
+			<br><br>
+			<select id="User_year" style="width: 100%; text-align: center; padding: 10px;">
+						<option value="-">Select your year</option>
+						<option value="1st Year">1st Year</option>
+						<option value="2nd Year" >2nd Year</option>
+						<option value="3rd Year" >3rd Year</option>
+						<option value="4th Year" >4th Year</option>
+						<option value="PG">PG</option>
+					  </select>
+		  </div>
 		  <div class="notify">
 			 
 		  <div class="infowrap">
