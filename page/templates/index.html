@@ -225,7 +225,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 				var years = document.getElementById("User_year");
 				var year = years.options[years.selectedIndex].value;
 				var chec = document.getElementById("anonAsk");
+				var nam = document.getElementById("userName").value;
 				if(!chec.checked){
+					alert(nam);
 					if(s=="")
 						alert("Enter your question!");
 					else if(topic=="") 
@@ -234,13 +236,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 						alert("Select your Department, or Ask Anonymously.");
 					else if(year=="-")
 						alert("Select your year, or Ask Anonymously.");
+					else if(nam=="")
+						alert("Enter your name.");
 					else{
 						$.ajax({
 							type: "POST",
 							url: "/updateDB",
 							dataType:"json",
 							contentType: 'application/json',
-							data: {'data':s, 'topic':topic, 'anon':'0','dept':dept,'year':year},
+							data: {'data':s, 'topic':topic, 'anon':'0','dept':dept,'year':year,'name':nam},
 							success: function(response){
 								var tick = document.getElementById("gtick");
 								tick.style.visibility = "visible";
