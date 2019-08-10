@@ -19,16 +19,11 @@ def displ():
 def update_db():
     print("HELLO WORLD")
     dic = request.data
+    print(str(dic))
     l = dic.split('&')
-    m = l[0].split('=')
-    n = l[1].split('=')
-    question = m[1]
-    topic = n[1]
-    print(question) 
-    print(topic)
-    questiondict = {'question':question,'topic':topic}
-    x = mongo.db.questions.insert_one(questiondict)
-    if x.acknowledged:
+    x = {y.split('=')[0] : y.split('=')[1] for y in l}
+    z = mongo.db.questions.insert_one(x)
+    if z.acknowledged:
         respondic = {"data":"Submitted your question!"}
         return jsonify(respondic)
     else:
