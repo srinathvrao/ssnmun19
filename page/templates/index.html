@@ -192,14 +192,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 				if(chec.checked){
 					var depts = document.getElementById("Department");
 					var years = document.getElementById("User_year");
+					var usname = document.getElementById("usname");
 					depts.style.visibility = "hidden";
 					years.style.visibility = "hidden";
+					usname.style.visibility = "hidden";
 				}
 				else{
 					var depts = document.getElementById("Department");
 					var years = document.getElementById("User_year");
+					var usname = document.getElementById("usname");
 					depts.style.visibility = "visible";
 					years.style.visibility = "visible";	
+					usname.style.visibility = "visible";
 				}
 
 			}
@@ -408,6 +412,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 		  <div class="col-lg-3 col-md-3 col-xs-3"><br></div>
 		  <div class="col-lg-4" style="text-align: center;">
 		  	<input type="checkbox" id="anonAsk" onclick="anon();" value="ano" name="Ask anonymously"> Ask Anonymously
+		  	<br><br>
+		  	<div id="usname">
+		  	Name: <input type="text" id="userName" name="Name" style="width: 100%; text-align: center; padding: 10px;" /></div>
 		  	<br><br>
 		  	<select id="Department" style="width: 100%; text-align: center; padding: 10px;">
 		  				<option value="-" selected="selected">Select your Department</option>

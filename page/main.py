@@ -19,7 +19,7 @@ def displ():
 def update_db():
     print("HELLO WORLD")
     dic = request.data
-    print(str(dic))
+    print(dic)
     l = dic.split('&')
     x = {y.split('=')[0] : y.split('=')[1] for y in l}
     z = mongo.db.questions.insert_one(x)
