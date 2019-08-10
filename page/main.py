@@ -18,7 +18,8 @@ def displ():
 @app.route("/updateDB",methods=['GET','POST'])
 def update_db():
     print("HELLO WORLD")
-    dic = request.data
+    dic = str(request.data)
+    print(dic)
     l = dic.split('&')
     m = l[0].split('=')
     n = l[1].split('=')
@@ -37,6 +38,6 @@ def update_db():
 
 
 if __name__ == "__main__":
-    app.run(port=8000)
+    app.run(host="139.59.33.113",port=8085)
 
 
