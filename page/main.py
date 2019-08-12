@@ -32,6 +32,6 @@ def update_db():
 
 
 if __name__ == "__main__":
-    app.run(port=8085)
+    app.run(port=8000)
 
 
