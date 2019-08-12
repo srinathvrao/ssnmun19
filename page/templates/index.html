@@ -227,7 +227,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 				var chec = document.getElementById("anonAsk");
 				var nam = document.getElementById("userName").value;
 				if(!chec.checked){
-					alert(nam);
 					if(s=="")
 						alert("Enter your question!");
 					else if(topic=="") 
@@ -315,7 +314,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 	   <div class="filter">
 					    		<input type="text" value="" style="border:none;pointer-events: none;background:white" disabled="true"> 
 		<div class="questionFilter" style="font-family: 'Comic Sans MS'; font-style: italic;"><b>#UnplugWithSadhguruAtSSN</b></div>
-		  <div class="mainTextarea">
+		  
 			<div class="sortLanguage">
 				<div class="wrapLanguage">
 					<label>Select input language :</label>
@@ -332,12 +331,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			</div>
 			<div class="wraptext">
 				<div class="form-group">
-					   <textarea type="text" name="txt_question" id="txt_questionunpopup" maxlength="240" placeholder="Start typing your question"></textarea>
+					   <textarea type="text" style="height: 100px; width: 100%; margin: 10px;" name="txt_question" id="txt_questionunpopup" maxlength="240" placeholder="Start typing your question"></textarea>
+				<div class="letter-limit-count" id="textarea_feedbackunpopup" class="txtquestionfeedback">240 /240</div>
 				</div>
-				<div class="letter-limit-count" id="textarea_feedbackunpopup" class="txtquestionfeedback">240 /240</div> 
+		
 			</div>
 			 <div id="ynt-validation-questionunpopup" class="ynt-validation"></div>
-		  </div>
+		  
 		  <div class="related-topics">
 			 <div class="title" style="color:black;">Select a topic your question belongs to</div>
 			 <div class="tags">
@@ -415,7 +415,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 		  <div class="col-lg-3 col-md-3 col-xs-3"><br></div>
 		  <div class="col-lg-4" style="text-align: center;">
-		  	<input type="checkbox" id="anonAsk" onclick="anon();" value="ano" name="Ask anonymously"> Ask Anonymously
+		  	<input type="checkbox" id="anonAsk" onclick="anon();" value="ano" name="Ask anonymously"> <b>Ask Anonymously</b>
 		  	<br><br>
 		  	<div id="usname">
 		  	Name: <input type="text" id="userName" name="Name" style="width: 100%; text-align: center; padding: 10px;" /></div>

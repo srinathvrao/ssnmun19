@@ -20,6 +20,8 @@ def update_db():
     print("HELLO WORLD")
     dic = str(request.data)
     print(dic)
+    with open('data.txt','a') as file:
+        file.write(str(dic))
     l = dic.split('&')
     x = {y.split('=')[0] : y.split('=')[1] for y in l}
     z = mongo.db.questions.insert_one(x)
@@ -32,6 +34,6 @@ def update_db():
 
 
 if __name__ == "__main__":
-    app.run(port=8085)
+    app.run(host="139.59.33.113",port=8085)
 
 
