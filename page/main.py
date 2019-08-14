@@ -19,7 +19,6 @@ def displ():
 def update_db():
     print("HELLO WORLD")
     dic = str(request.data)
-    print(dic)
     with open('data.txt','a') as file:
         file.write(str(dic))
     l = dic.split('&')
