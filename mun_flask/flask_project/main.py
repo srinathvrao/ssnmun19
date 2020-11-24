@@ -170,6 +170,6 @@ def handle_data():
                     else:
                         return "<h3>Error registering in database.</h3>"
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     app.run(port=8000)
 
