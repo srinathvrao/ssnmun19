@@ -11,7 +11,7 @@ import email
 
 ORG_EMAIL   = "@gmail.com"
 FROM_EMAIL  = "ssnmun.payment" + ORG_EMAIL
-FROM_PWD    = "jerrygeorgethomas"
+FROM_PWD    = "***"
 SMTP_SERVER = "imap.gmail.com"
 SMTP_PORT   = 993
 
